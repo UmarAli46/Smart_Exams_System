@@ -21,12 +21,13 @@ function* handleFetchQuestions(action: PayloadAction<Record<string, any> | undef
   }
 }
 
-function* handleUpsertQuestion(action: PayloadAction<{ id?: number; data: QuestionFormData }>): Generator<any, void, any> {
+function* handleUpsertQuestion(action: PayloadAction<QuestionFormData & { id?: number }>): Generator<any, void, any> {
   try {
-    if (action.payload.id) {
-      yield call(apiUpdateQuestion, action.payload.id, action.payload.data);
+    const { id, ...data } = action.payload;
+    if (id) {
+      yield call(apiUpdateQuestion, id, data as QuestionFormData);
     } else {
-      yield call(apiCreateQuestion, action.payload.data);
+      yield call(apiCreateQuestion, data as QuestionFormData);
     }
     yield put(upsertQuestionSuccess());
     yield put(fetchQuestionsStart(undefined));
