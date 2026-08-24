@@ -48,7 +48,12 @@ const NotFound = lazy(() => import('../pages/NotFound'));
 
 export default function AppRoutes() {
   return (
-    <BrowserRouter>
+    <BrowserRouter
+      future={{
+        v7_startTransition: true,
+        v7_relativeSplatPath: true,
+      }}
+    >
       <Suspense fallback={<LoadingSpinner message="Loading SMART Exam System..." height="100vh" />}>
         <Routes>
           {/* Default Route */}
